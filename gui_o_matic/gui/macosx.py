@@ -17,12 +17,12 @@ class MacOSXThing(NSObject):
         self.indicator.ready = True
 
     def activate_(self, notification):
-        for i, v in self.indicator.items.iteritems():
+        for i, v in self.indicator.items.items():
             if notification == v:
                 if i in self.indicator.callbacks:
                     self.indicator.callbacks[i]()
                 return
-        print('activated an unknown item: %s' % notification)
+        print(('activated an unknown item: %s' % notification))
 
 
 class MacOSXGUI(BaseGUI):
@@ -61,7 +61,7 @@ class MacOSXGUI(BaseGUI):
         # Load all images, set initial
         self.images = {}
         images = self.config.get('indicator', {}).get('images', {})
-        for s, p in images.iteritems():
+        for s, p in images.items():
             p = self._theme_image(p)
             self.images[s] = NSImage.alloc().initByReferencingFile_(p)
         if self.images:

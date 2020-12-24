@@ -4,7 +4,7 @@ import os
 import subprocess
 import threading
 import traceback
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import webbrowser
 
 
@@ -48,7 +48,7 @@ class BaseGUI(object):
                 url, args = self._get_url(args, remove=True)
                 base_url = '/'.join(url.split('/')[:3])
 
-                uo = urllib.URLopener()
+                uo = urllib.request.URLopener()
                 for cookie, value in self.config.get('http_cookies', {}
                                                      ).get(base_url, []):
                     uo.addheader('Cookie', '%s=%s' % (cookie, value))
@@ -57,7 +57,7 @@ class BaseGUI(object):
                     (fn, hdrs) = uo.retrieve(url, data=args)
                 else:
                     (fn, hdrs) = uo.retrieve(url)
-                hdrs = unicode(hdrs)
+                hdrs = str(hdrs)
 
                 with open(fn, 'rb') as fd:
                     data = fd.read().strip()
@@ -77,7 +77,7 @@ class BaseGUI(object):
             elif hasattr(self, op):
                 getattr(self, op)(**(args or {}))
 
-        except Exception, e:
+        except Exception as e:
             self._report_error(e)
 
     def _spawn(self, cmd, report_errors=True, _raise=False):
@@ -86,7 +86,7 @@ class BaseGUI(object):
                 rv = proc.wait()
                 if rv:
                     raise Exception('%s returned: %d' % (cmd[0], rv))
-            except Exception, e:
+            except Exception as e:
                 if report_errors:
                     self._report_error(e)
         try:
@@ -95,7 +95,7 @@ class BaseGUI(object):
             st.daemon = True
             st.start()
             return True
-        except Exception, e:
+        except Exception as e:
             if _raise:
                 raise
             elif report_errors:
@@ -144,7 +144,7 @@ class BaseGUI(object):
             self._add_menu_item(**item_info)
 
     def set_status(self, status=None, badge=None):
-        print('STATUS: %s (badge=%s)' % (status, badge))
+        print(('STATUS: %s (badge=%s)' % (status, badge)))
 
     def quit(self):
         raise KeyboardInterrupt("User quit")
@@ -180,15 +180,15 @@ class BaseGUI(object):
         assert(url is not None)
         try:
             webbrowser.open(url)
-        except Exception, e:
+        except Exception as e:
             self._report_error(e)
 
     def _report_error(self, e):
         traceback.print_exc()
         self.notify_user(
                 (self.next_error_message or 'Error: %(error)s')
-                % {'error': unicode(e)})
+                % {'error': str(e)})
 
     def notify_user(self,
             message='Hello', popup=False, alert=False, actions=None):
-        print('NOTIFY: %s' % message)
+        print(('NOTIFY: %s' % message))

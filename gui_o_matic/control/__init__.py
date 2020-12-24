@@ -5,7 +5,7 @@ import socket
 import time
 import threading
 import traceback
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from gui_o_matic.gui.auto import AutoGUI
 
 
@@ -64,7 +64,7 @@ class GUIPipeControl(threading.Thread):
 
     def http_tcp_pivot(self, url):
         port = self._listen()
-        urllib2.urlopen(url.replace('%PORT%', port)).read()
+        urllib.request.urlopen(url.replace('%PORT%', port)).read()
         self._accept()
 
     def do_line_magic(self, line, listen):
@@ -86,7 +86,7 @@ class GUIPipeControl(threading.Thread):
 
             else:
                 return False, listen
-        except Exception, e:
+        except Exception as e:
             if self.gui:
                 self.gui._report_error(e)
                 time.sleep(30)
@@ -118,7 +118,7 @@ class GUIPipeControl(threading.Thread):
         if hasattr(self.gui, command):
             getattr(self.gui, command)(**kwargs)
         else:
-            print('Unknown method: %s' % command)
+            print(('Unknown method: %s' % command))
 
     def run(self):
         try:
@@ -140,7 +140,7 @@ class GUIPipeControl(threading.Thread):
                             cmd, args = line.strip().split(' ', 1)
                             args = json.loads(args)
                             self.do(cmd, args)
-                        except (ValueError, IndexError, NameError), e:
+                        except (ValueError, IndexError, NameError) as e:
                             if self.gui:
                                 self.gui._report_error(e)
                                 time.sleep(30)

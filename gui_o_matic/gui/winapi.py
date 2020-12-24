@@ -22,9 +22,9 @@ import atexit
 import itertools
 import struct
 import functools
-import Queue
+import queue
 
-import pil_bmp_fix
+from . import pil_bmp_fix
 
 # Work-around till upstream PIL is patched.
 #
@@ -298,7 +298,7 @@ class Window( object ):
                 background = self.background or win32gui.GetPixel( hdc, rect[0], rect[1] )
                 self.last_background = background
             except:
-                print "FIXME: Figure out why GetPixel( hdc, 0, 0 ) is failing..."
+                print("FIXME: Figure out why GetPixel( hdc, 0, 0 ) is failing...")
                 #traceback.print_exc()
                 #print "GetLastError() => {}".format( win32api.GetLastError() )
                 background = self.last_background
@@ -516,7 +516,7 @@ class Window( object ):
         def __call__( self, window, hdc, paint_struct ):
 
             prior = {}
-            for key, setter in self.__mode_setters.items():
+            for key, setter in list(self.__mode_setters.items()):
                 value = getattr( self, key )
                 if value is not None:
                     prior[ key ] = setter( hdc, getattr( self, key ) )
@@ -529,7 +529,7 @@ class Window( object ):
                                self.rect,
                                self.style )
 
-            for key, value in prior.items():
+            for key, value in list(prior.items()):
                 self.__mode_setters[ key ]( hdc, value )
                 
 
@@ -545,7 +545,7 @@ class Window( object ):
             self.action = None
 
         def __call__( self, window, message, wParam, lParam ):
-            print "Not implemented __call__ for " + self.__class__.__name__
+            print("Not implemented __call__ for " + self.__class__.__name__)
 
         def __del__( self ):
             if hasattr( self, 'handle' ):
@@ -749,7 +749,7 @@ class Window( object ):
             
             win32gui.Shell_NotifyIcon( message, data )
         else:
-            print "Can't send popup without systray!"
+            print("Can't send popup without systray!")
 
     def set_systray_actions( self, actions ):
         self.systray_map.update( actions )
@@ -925,7 +925,7 @@ class WinapiGUI(BaseGUI):
         hdc = win32gui.GetWindowDC( self.main_window.window_handle )
         def display_keys():
             items = self.config['main_window']['status_displays']
-            return map( lambda item: item['id'], items )
+            return [item['id'] for item in items]
 
         rect = region
         
@@ -966,9 +966,8 @@ class WinapiGUI(BaseGUI):
         layout buttons, assuming the config declaration is in order.
         '''
         def button_items():
-            button_keys = map( lambda item: item['id'],
-                               self.config['main_window']['action_items'] )
-            return map( lambda key: self.items[ key ], button_keys )
+            button_keys = [item['id'] for item in self.config['main_window']['action_items']]
+            return [self.items[ key ] for key in button_keys]
         window_size = self.main_window.get_client_region()
 
         # Layout left to right across the bottom
@@ -1085,7 +1084,7 @@ class WinapiGUI(BaseGUI):
         font_config.lfPitchAndFamily = win32con.DEFAULT_PITCH | win32con.FF_DONTCARE
 
         if family and family not in self.known_fonts:
-            print "Unknown font: '{}', using '{}'".format( family, self.default_font )
+            print("Unknown font: '{}', using '{}'".format( family, self.default_font ))
             
         font_config.lfFaceName =  family if family in self.known_fonts else self.default_font
 
@@ -1176,7 +1175,7 @@ class WinapiGUI(BaseGUI):
         '''
         self.displays = { item['id']: self.StatusDisplay( gui = self, **item ) for item in self.config['main_window']['status_displays'] }
 
-        for display in self.displays.values():
+        for display in list(self.displays.values()):
             layers = ( display.title, display.details )
             self.main_window.layers.extend( layers )
             self.compositor.operations.append( display.icon )
@@ -1189,7 +1188,7 @@ class WinapiGUI(BaseGUI):
             try:
                 msg = self.queue.get_nowait()
                 msg()
-            except Queue.Empty:
+            except queue.Empty:
                 break
 
     def _signal_queue( self ):
@@ -1204,7 +1203,7 @@ class WinapiGUI(BaseGUI):
         '''
         # https://stackoverflow.com/questions/1551605/how-to-set-applications-taskbar-icon-in-windows-7/1552105#1552105
         #
-        self.appid = unicode( uuid.uuid4() )
+        self.appid = str( uuid.uuid4() )
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(self.appid)
         win32gui.InitCommonControls()
 
@@ -1423,7 +1422,7 @@ class WinapiGUI(BaseGUI):
             symlink = data.decode("utf-8")
             base, ignored = os.path.split( path )
             update = os.path.join( base, symlink )
-            print "Following symlink {} -> {}".format( path, update )
+            print("Following symlink {} -> {}".format( path, update ))
             return os.path.abspath( update )
         except UnicodeDecodeError:
             return path
@@ -1504,7 +1503,7 @@ class WinapiGUI(BaseGUI):
         traceback.print_exc()
         self.notify_user(
                 (self.next_error_message or 'Error: %(error)s')
-                % {'error': unicode(e)})
+                % {'error': str(e)})
 
     def notify_user(self, message, popup=False, alert = False, actions = []):
         if alert:
@@ -1575,7 +1574,7 @@ class AsyncWrapper( object ):
         '''
         target = self.cls( *args, **kwargs )
         proxy = self.proxy( *args, **kwargs )
-        queue = Queue.Queue()
+        queue = queue.Queue()
 
         signal = self.get_signal(target)
 

@@ -370,7 +370,7 @@ class GtkBaseGUI(BaseGUI):
                                 report_errors=False):
                             return
                     except:
-                        print('FIXME: Should popup: %s' % message)
+                        print(('FIXME: Should popup: %s' % message))
 
             # Note: popups also fall through to here if we can't pop up
             if self.splash:
@@ -379,7 +379,7 @@ class GtkBaseGUI(BaseGUI):
                 msg = message.replace('<', '&lt;')
                 self.main_window['notification'].set_markup(msg)
             else:
-                print('FIXME: Notify: %s' % message)
+                print(('FIXME: Notify: %s' % message))
         gobject.idle_add(notify, self)
 
     def _indicator_setup(self):
@@ -446,7 +446,7 @@ class GtkBaseGUI(BaseGUI):
             gobject.idle_add(self.items[id].set_sensitive, sensitive)
 
     def _font_setup(self):
-        for name, style in self.config.get('font_styles', {}).iteritems():
+        for name, style in self.config.get('font_styles', {}).items():
             pfd = pango.FontDescription()
             pfd.set_family(style.get('family', 'normal'))
             pfd.set_size(style.get('points', 12) * pango.SCALE)

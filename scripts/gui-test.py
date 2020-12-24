@@ -20,7 +20,7 @@ def format_pod( template, **kwargs ):
     apply str.format to all str elements of a simple object tree template
     '''
     if isinstance( template, dict ):
-        template = { format_pod( key, **kwargs ): format_pod( value, **kwargs ) for (key,value) in template.items() }
+        template = { format_pod( key, **kwargs ): format_pod( value, **kwargs ) for (key,value) in list(template.items()) }
     elif isinstance( template, str ):
         template = template.format( **kwargs )
     elif isinstance( template, list ):
