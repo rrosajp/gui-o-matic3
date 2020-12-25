@@ -1,3 +1,9 @@
+# SPDX-FileCopyrightText: © 2016-2018 Mailpile ehf. <team@mailpile.is>
+# SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+# SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net>
+#
+# SPDX-License-Identifier: LGPL-3.0-only
+
 import copy
 import importlib
 
@@ -41,4 +47,3 @@ def AutoGUI(config, *args, **kwargs):
             pass
 
     raise NotImplementedError("No working GUI found!")
-

@@ -1,0 +1,316 @@
+SPDXVersion: SPDX-2.1
+DataLicense: CC0-1.0
+SPDXID: SPDXRef-DOCUMENT
+DocumentName: gui-o-matic
+DocumentNamespace: http://spdx.org/spdxdocs/spdx-v2.1-5fa363ad-2884-4edd-9e4d-b94cef839609
+Creator: Person: Anonymous ()
+Creator: Organization: Anonymous ()
+Creator: Tool: reuse-0.11.1
+Created: 2020-12-24T04:02:02Z
+CreatorComment: <text>This document was created automatically using available reuse information consistent with REUSE.</text>
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-8ca1a2aecfdd53f1d3d1a33a048ac572
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-d25d07ed2b0acb497dedc7cdab1e0deb
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-b34001d87f585e6c732b26356bbacbe8
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-2b4c66e2167a04b3ee98be8c7f512604
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-9ec5b83e02116a62fa1cebb958edb870
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-613a41a56c83b4c8918bc8d01216d682
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-be560b82992f1fb6b2e36be431ba228f
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-02ef479b3553ad73cebd512edf45ef92
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-696ddfe9f3797065b5899ef1895db738
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-6d866ce05deaed34e37aec7ead6effe9
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-b2f937fec845b1d17b623bfd77edeecf
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-4a7402a56a8e523a0bc410c1198e701c
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-685aaa3adb4812675c7e9aaed97d8d84
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-f18509700f7adb5c56da9e6335224134
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-67ba02ee003e08965cf8dab47dd0489f
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-dcee60b860fe4b07864ebc649405d82f
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-31e7e3b7ed6054023b8bddf48e1f5de1
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-3350c9b5581b64ce8cc5cd4c5d7f8203
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-93ca49ac629e8f7af984bdbbc4e744f6
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-d38ed1644001631dca04fcdb9612bcfa
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-b8a307cde2375e1bcfa4387a81506ad8
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-9da209d8699dbc9cb18b62c61272bcff
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-92bfe689411dd5468222ac93f1ef76e7
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-0553ef3a05adbbd3b5acbc456bd7b0f5
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-3ac27729b6725bab5aa84adbc2c2a4cf
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-5ff32e87de1420149696d414975169ca
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-d15243e527784f92051999415de811e8
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-4f559eaf35aec05adc63092a398506cd
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-9f8a036916e58614823afeaf5c876508
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-052e413cce8cf8319aa7b1a0e352dae4
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-747521755a0560c76762cf09cd3c1f13
+Relationship: SPDXRef-DOCUMENT describes SPDXRef-bb947769640d399776a92250050875d2
+
+FileName: ./.pre-commit-config.yaml
+SPDXID: SPDXRef-8ca1a2aecfdd53f1d3d1a33a048ac572
+FileChecksum: SHA1: 5e79ecf93ba14d0fb22e807b02df9dd73a9a7194
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./CHANGES.txt
+SPDXID: SPDXRef-d25d07ed2b0acb497dedc7cdab1e0deb
+FileChecksum: SHA1: 915081847e9efb6ddda08bd0dad9354794f4b3ca
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./MANIFEST.in
+SPDXID: SPDXRef-b34001d87f585e6c732b26356bbacbe8
+FileChecksum: SHA1: b8bef425fa0871057574f8a24905b0803948bf3e
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./PROTOCOL.md
+SPDXID: SPDXRef-2b4c66e2167a04b3ee98be8c7f512604
+FileChecksum: SHA1: 2fd4b991e52ddf97f1bf91339f905ed962af2111
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./README.md
+SPDXID: SPDXRef-9ec5b83e02116a62fa1cebb958edb870
+FileChecksum: SHA1: 67525815505718a8f32abe6e7a17a520c939bff0
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./distribute_setup.py
+SPDXID: SPDXRef-613a41a56c83b4c8918bc8d01216d682
+FileChecksum: SHA1: a73a1a21082c6dc01833996c16659d0405e35969
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./gui_o_matic/__init__.py
+SPDXID: SPDXRef-be560b82992f1fb6b2e36be431ba228f
+FileChecksum: SHA1: 4a34f176d54d82fb01c03ad3b4b81bd383db22e8
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./gui_o_matic/__main__.py
+SPDXID: SPDXRef-02ef479b3553ad73cebd512edf45ef92
+FileChecksum: SHA1: 03c14c18b3380c1c816d5f23b87b7ddb31530b05
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./gui_o_matic/control/__init__.py
+SPDXID: SPDXRef-696ddfe9f3797065b5899ef1895db738
+FileChecksum: SHA1: bfe30b8dfcee2125d1f9a5ac755569d7939122bc
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./gui_o_matic/gui/auto.py
+SPDXID: SPDXRef-6d866ce05deaed34e37aec7ead6effe9
+FileChecksum: SHA1: 8f5830cc0d684cc7ecf0353a7342b2d3ad99073c
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./gui_o_matic/gui/base.py
+SPDXID: SPDXRef-b2f937fec845b1d17b623bfd77edeecf
+FileChecksum: SHA1: 39724887a78522acedf0259daedf08f2d39270fa
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./gui_o_matic/gui/gtkbase.py
+SPDXID: SPDXRef-4a7402a56a8e523a0bc410c1198e701c
+FileChecksum: SHA1: 6ce081e7018d70bbb7db89d0ff7601e3e01afdc4
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./gui_o_matic/gui/macosx.py
+SPDXID: SPDXRef-685aaa3adb4812675c7e9aaed97d8d84
+FileChecksum: SHA1: a2502f838f6c096e5d5d75f25a44ac14f37e4fe1
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./gui_o_matic/gui/pil_bmp_fix.py
+SPDXID: SPDXRef-f18509700f7adb5c56da9e6335224134
+FileChecksum: SHA1: be8b1c34b28afcb3e7b03a63637200337feba630
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./gui_o_matic/gui/unity.py
+SPDXID: SPDXRef-67ba02ee003e08965cf8dab47dd0489f
+FileChecksum: SHA1: ed19e164818116bfb91e4eae354b261c9178bab1
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./gui_o_matic/gui/winapi.py
+SPDXID: SPDXRef-dcee60b860fe4b07864ebc649405d82f
+FileChecksum: SHA1: a88af2516797a5cd332517fb96d5a9c9a31d1552
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./pyproject.toml
+SPDXID: SPDXRef-31e7e3b7ed6054023b8bddf48e1f5de1
+FileChecksum: SHA1: d6ef4244a96ebb24fa0093ca7649edb555f782d3
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/gui-test
+SPDXID: SPDXRef-3350c9b5581b64ce8cc5cd4c5d7f8203
+FileChecksum: SHA1: 75ed79771324f5485ec265bd6923c17cd73c4622
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/gui-test.py
+SPDXID: SPDXRef-93ca49ac629e8f7af984bdbbc4e744f6
+FileChecksum: SHA1: f0e1d395c146d1ee81d988070121016f7dd3eb9e
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/img/gt-attention-light.png
+SPDXID: SPDXRef-d38ed1644001631dca04fcdb9612bcfa
+FileChecksum: SHA1: d8ae35cdaab3c6ba40477bd29275859ef3b737fa
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/img/gt-normal-light.png
+SPDXID: SPDXRef-b8a307cde2375e1bcfa4387a81506ad8
+FileChecksum: SHA1: 512335035a64d2f63417496f11b0802bd6c8711e
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/img/gt-shutdown-light.png
+SPDXID: SPDXRef-9da209d8699dbc9cb18b62c61272bcff
+FileChecksum: SHA1: e3ba6507d13b41f1085cadbb35a7d8d2da13f32f
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/img/gt-splash.png
+SPDXID: SPDXRef-92bfe689411dd5468222ac93f1ef76e7
+FileChecksum: SHA1: 512335035a64d2f63417496f11b0802bd6c8711e
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/img/gt-startup-light.png
+SPDXID: SPDXRef-0553ef3a05adbbd3b5acbc456bd7b0f5
+FileChecksum: SHA1: e3ba6507d13b41f1085cadbb35a7d8d2da13f32f
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/img/gt-wallpaper.png
+SPDXID: SPDXRef-3ac27729b6725bab5aa84adbc2c2a4cf
+FileChecksum: SHA1: 512335035a64d2f63417496f11b0802bd6c8711e
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/img/gt-working-light.png
+SPDXID: SPDXRef-5ff32e87de1420149696d414975169ca
+FileChecksum: SHA1: f840c9a13b7709742d12d83d576c30dd3920f117
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/img/x11-flipper.png
+SPDXID: SPDXRef-d15243e527784f92051999415de811e8
+FileChecksum: SHA1: 0093e517e3e405dcc34b3f0dabb9beee310a1ec7
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./scripts/xflipflop
+SPDXID: SPDXRef-4f559eaf35aec05adc63092a398506cd
+FileChecksum: SHA1: 4d078598e3c7cab0d956e457af5f13f83005c1c6
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./setup.cfg
+SPDXID: SPDXRef-9f8a036916e58614823afeaf5c876508
+FileChecksum: SHA1: 77b69670ff79e86bf9985e76eb10f54b89632af3
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./setup.py
+SPDXID: SPDXRef-052e413cce8cf8319aa7b1a0e352dae4
+FileChecksum: SHA1: afe9ac0943f9ab0d70d6e752c8b29108baca49ac
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./stdeb.cfg
+SPDXID: SPDXRef-747521755a0560c76762cf09cd3c1f13
+FileChecksum: SHA1: c783d268f94aabec06e371c9ca730ac2e70e5307
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>
+
+FileName: ./update-version.sh
+SPDXID: SPDXRef-bb947769640d399776a92250050875d2
+FileChecksum: SHA1: 1d2fe81d4ff5f47ebcc3ee9d7cfe18604e17bb94
+LicenseConcluded: NOASSERTION
+LicenseInfoInFile: LGPL-3.0-only
+FileCopyrightText: <text>2016-2018, Bjarni Rúnar Einarsson <bre@godthaab.is>
+2020, Peter J. Mello <admin@petermello.net>
+SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net></text>

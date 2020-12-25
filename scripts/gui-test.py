@@ -1,4 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python3
+# SPDX-FileCopyrightText: © 2016-2018 Mailpile ehf. <team@mailpile.is>
+# SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+# SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net>
+#
+# SPDX-License-Identifier: LGPL-3.0-only
 
 import os.path
 import sys
@@ -31,7 +36,7 @@ def format_pod( template, **kwargs ):
         # Maybe raise an error instead?
         #
         template = copy.copy( template )
-        
+
     return template
 
 class TestSession( object ):
@@ -59,7 +64,7 @@ class TestSession( object ):
         text = json.dumps( format_pod( template, **self.parameters ) )
         self.send( text )
 
-        
+
     def command( self, command, template):
         text = '{} {}'.format( command,
                                json.dumps( format_pod( template, **self.parameters ) ) )

@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: © 2016-2018 Mailpile ehf. <team@mailpile.is>
+# SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+# SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net>
+#
+# SPDX-License-Identifier: LGPL-3.0-only
 
 '''
 Modification from BmpImagePlugin.py, pillow project
@@ -77,7 +82,7 @@ def _save(im, fp, filename):
     # Pad remaining header(unused color space info)
     padding = offset - fp.tell()
     fp.write(b"\0" * (padding))
-    
+
 
     if im.mode == "1":
         for i in (0, 255):

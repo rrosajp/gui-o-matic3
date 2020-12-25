@@ -1,30 +1,74 @@
-#!/bin/bash
-export PARPID=$$
+#!/bin/sh
+# SPDX-FileCopyrightText: © 2016-2018 Mailpile ehf. <team@mailpile.is>
+# SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+# SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net>
+#
+# SPDX-License-Identifier: LGPL-3.0-only
 
-export BASEDIR=$(cd $(dirname "$(readlink -f "$0" || echo "$0")"); pwd)
-export ICON="$BASEDIR/img/x11-flipper.png"
-export NOTIFY="notify-send -t 1500 -i '$ICON' xflipflop"
-export ROOTWINID=$(xwininfo -name unity-panel |grep 'Window id:' |cut -f4 -d\ )
-
-export DEV_ALL="xinput --list |perl -npe 's/^.*id=(\\\\d+).*\$/\$1/'"
-export DEV_NONTOUCH="xinput --list |grep -i -v -e master -e Touchscreen -e Power -e hotkeys |perl -npe 's/^.*id=(\\\\d+).*\$/\$1/'"
-export DEV_TOUCH="xinput --list |grep -i -v master |grep -e Touchscreen |perl -npe 's/^.*id=(\\\\d+).*\$/\$1/'"
-
-export ENABLE_DEVICES="$DEV_ALL |xargs -L 1 -I DEV xinput set-int-prop DEV 'Device Enabled' 8 1"
-export DISABLE_NONTOUCH="$DEV_NONTOUCH |xargs -L 1 -I DEV xinput set-int-prop DEV 'Device Enabled' 8 0"
-export DISABLE_TOUCH="$DEV_TOUCH |xargs -L 1 -I DEV xinput set-int-prop DEV 'Device Enabled' 8 0"
-
-export ROTATE_TOUCH_LEFT="$DEV_TOUCH |xargs -L 1 -I DEV xinput set-prop DEV 'Coordinate Transformation Matrix' 0 -1 1 1 0 0 0 0 1"
-export ROTATE_TOUCH_RIGHT="$DEV_TOUCH |xargs -L 1 -I DEV xinput set-prop DEV 'Coordinate Transformation Matrix' 0 1 0 -1 0 1 0 0 1"
-export ROTATE_TOUCH_NORMAL="$DEV_TOUCH |xargs -L 1 -I DEV xinput set-prop DEV 'Coordinate Transformation Matrix' 1 0 0 0 1 0 0 0 1"
-export ROTATE_TOUCH_INVERTED="$DEV_TOUCH |xargs -L 1 -I DEV xinput set-prop DEV 'Coordinate Transformation Matrix' -1 0 1 0 -1 1 0 0 1"
+BASEDIR="$(dirname "$(realpath -Leq "${0}" || echo "${0}")")"
+PARPID="$$"
+export BASEDIR PARPID
 
 (
-    cat <<tac
+  ICON="${BASEDIR}/img/x11-flipper.png"
+  NOTIFY="notify-send -t 1500 -i ${ICON} xflipflop"
+  ROOTWINID="$(xwininfo -name unity-panel | grep 'Window id:' | cut -f4 -d' ')"
+
+  enableDevices() {
+    xinput --list | sed -E -e 's/.*\s*id=([[:digit:]]*)\s*.*/\1/' |
+      xargs -L 1 env printf "xinput set-int-prop %s 'Device Enabled' 8 1\n"
+  }
+
+  disableNonTouch() {
+    xinput --list | grep -i -v -e master -e Touchscreen -e Power -e hotkeys |
+      sed -E -e 's/.*\s*id=([[:digit:]]*)\s*.*/\1/' |
+      xargs -L 1 env printf "xinput set-int-prop %s 'Device Enabled' 8 0\n"
+  }
+
+  disableTouch() {
+    xinput --list | grep -i -v master | grep -e Touchscreen |
+      sed -E -e 's/.*\s*id=([[:digit:]]*)\s*.*/\1/' |
+      xargs -L 1 env printf "xinput set-int-prop %s 'Device Enabled' 8 0\n"
+  }
+
+  rotateTouch() {
+    case "${1}" in
+      left)
+        MATRIX="0 -1 1 1 0 0 0 0 1"
+        ;;
+      right)
+        MATRIX="0 1 0 -1 0 1 0 0 1"
+        ;;
+      normal)
+        MATRIX="1 0 0 0 1 0 0 0 1"
+        ;;
+      inverted)
+        MATRIX="-1 0 1 0 -1 1 0 0 1"
+        ;;
+      *)
+        return 1
+        ;;
+    esac
+
+    xinput --list | grep -i -v master | grep -e Touchscreen |
+      sed -E -e 's/.*\s*id=([[:digit:]]*)\s*.*/\1/' | xargs -L 1 -I DEV env \
+      printf "xinput set-prop %s 'Coordinate Transformation Matrix' %s\n" \
+      DEV "${MATRIX}"
+  }
+
+  ENABLE_DEVICES="$(enableDevices)"
+  DISABLE_NONTOUCH="$(disableNonTouch)"
+  DISABLE_TOUCH="$(disableTouch)"
+
+  ROTATE_TOUCH_LEFT="$(rotateTouch left)"
+  ROTATE_TOUCH_NORMAL="$(rotateTouch normal)"
+  ROTATE_TOUCH_INVERTED="$(rotateTouch inverted)"
+
+  cat <<tac
     {
         "app_name": "xflipflop",
         "app_id": "xflipflop",
-        "images": {"startup": "$ICON"},
+        "images": {"startup": "${ICON}"},
         "indicator": {
             "menu_items": [
                 {
@@ -32,47 +76,47 @@ export ROTATE_TOUCH_INVERTED="$DEV_TOUCH |xargs -L 1 -I DEV xinput set-prop DEV 
                     "label": "Laptop",
                     "op": "shell",
                     "args": ["xrandr -o normal",
-                             "xdg-screensaver resume $ROOTWINID || true",
-                             "$ENABLE_DEVICES", "$DISABLE_TOUCH || true",
-                             "$NOTIFY 'Laptop mode; disabled touchscreen'"],
+                             "xdg-screensaver resume ${ROOTWINID} || true",
+                             "${ENABLE_DEVICES}", "${DISABLE_TOUCH} || true",
+                             "${NOTIFY} 'Laptop mode; disabled touchscreen'"],
                     "sensitive": true
                 },{
                     "id": "tablet",
                     "label": "Tablet",
                     "op": "shell",
                     "args": ["xrandr -o left",
-                             "xdg-screensaver suspend $ROOTWINID || true",
-                             "$ENABLE_DEVICES", "$DISABLE_NONTOUCH || true",
-                             "$ROTATE_TOUCH_LEFT || true",
-                             "$NOTIFY 'Tablet mode; touchscreen only'"],
+                             "xdg-screensaver suspend ${ROOTWINID} || true",
+                             "${ENABLE_DEVICES}", "${DISABLE_NONTOUCH} || true",
+                             "${ROTATE_TOUCH_LEFT} || true",
+                             "${NOTIFY} 'Tablet mode; touchscreen only'"],
                     "sensitive": true
                 },{
                     "id": "tablet",
                     "label": "Tent",
                     "op": "shell",
                     "args": ["xrandr -o inverted",
-                             "xdg-screensaver suspend $ROOTWINID || true",
-                             "$ENABLE_DEVICES", "$DISABLE_NONTOUCH || true",
-                             "$ROTATE_TOUCH_INVERTED || true",
-                             "$NOTIFY 'Tent mode; touchscreen only'"],
+                             "xdg-screensaver suspend ${ROOTWINID} || true",
+                             "${ENABLE_DEVICES}", "${DISABLE_NONTOUCH} || true",
+                             "${ROTATE_TOUCH_INVERTED} || true",
+                             "${NOTIFY} 'Tent mode; touchscreen only'"],
                     "sensitive": true
                 },{
                     "id": "tv",
                     "label": "Video",
                     "op": "shell",
                     "args": ["xrandr -o normal",
-                             "xdg-screensaver suspend $ROOTWINID || true",
-                             "$ENABLE_DEVICES", "$DISABLE_NONTOUCH || true",
-                             "$ROTATE_TOUCH_NORMAL || true",
-                             "$NOTIFY 'Video mode; touchscreen only'"],
+                             "xdg-screensaver suspend ${ROOTWINID} || true",
+                             "${ENABLE_DEVICES}", "${DISABLE_NONTOUCH} || true",
+                             "${ROTATE_TOUCH_NORMAL} || true",
+                             "${NOTIFY} 'Video mode; touchscreen only'"],
                     "sensitive": true
                 },{
                     "id": "tv",
                     "label": "Everything",
                     "op": "shell",
-                    "args": ["xrandr -o normal", "$ENABLE_DEVICES",
-                             "xdg-screensaver resume $ROOTWINID || true",
-                             "$NOTIFY 'All input devices enabled'"],
+                    "args": ["xrandr -o normal", "${ENABLE_DEVICES}",
+                             "xdg-screensaver resume ${ROOTWINID} || true",
+                             "${NOTIFY} 'All input devices enabled'"],
                     "sensitive": true
                 }
             ]
@@ -81,15 +125,17 @@ export ROTATE_TOUCH_INVERTED="$DEV_TOUCH |xargs -L 1 -I DEV xinput set-prop DEV 
     OK GO
 tac
 ) | (
-    onboard &
-    OBPID=$!
-    function cleanup {
-      kill $OBPID
-    }
-    trap cleanup EXIT
+  onboard &
+  OBPID="$!"
+  cleanup() {
+    kill "${OBPID}"
+  }
+  trap cleanup EXIT
 
-    cd "$BASEDIR/.."
-    python2 -m gui_o_matic
+  cd "${BASEDIR}/.." || exit 1
+  python3 -m gui_o_matic
 
-    kill $PARPID
+  kill "${PARPID}"
 )
+
+unset BASEDIR PARPID

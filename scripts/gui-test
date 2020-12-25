@@ -1,25 +1,33 @@
-#!/bin/bash
-export BASEDIR=$(cd $(dirname "$(readlink -f "$0" || echo "$0")"); pwd)
-export PARPID=$$
+#!/bin/sh
+# SPDX-FileCopyrightText: © 2016-2018 Mailpile ehf. <team@mailpile.is>
+# SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
+# SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net>
+#
+# SPDX-License-Identifier: LGPL-3.0-only
+
+BASEDIR="$(dirname "$(realpath -Leq "${0}" || echo "${0}")")"
+PARPID="$$"
+export BASEDIR PARPID
+
 (
-    cat <<tac
+  cat <<tac
 {
     "app_name": "Indicator Test",
-    "app_icon": "$BASEDIR/img/gt-normal-%(theme)s.png",
+    "app_icon": "${BASEDIR}/img/gt-normal-%(theme)s.png",
     "_prefer_gui": ["unity", "macosx"],
     "images": {
-        "startup": "$BASEDIR/img/gt-startup-%(theme)s.png",
-        "normal": "$BASEDIR/img/gt-normal-%(theme)s.png",
-        "working": "$BASEDIR/img/gt-working-%(theme)s.png",
-        "attention": "$BASEDIR/img/gt-attention-%(theme)s.png",
-        "shutdown": "$BASEDIR/img/gt-shutdown-%(theme)s.png"
+        "startup": "${BASEDIR}/img/gt-startup-%(theme)s.png",
+        "normal": "${BASEDIR}/img/gt-normal-%(theme)s.png",
+        "working": "${BASEDIR}/img/gt-working-%(theme)s.png",
+        "attention": "${BASEDIR}/img/gt-attention-%(theme)s.png",
+        "shutdown": "${BASEDIR}/img/gt-shutdown-%(theme)s.png"
     },
     "main_window": {
         "show": false,
         "close_quits": true,
         "width": 480,
         "height": 360,
-        "background": "$BASEDIR/img/gt-wallpaper.png",
+        "background": "${BASEDIR}/img/gt-wallpaper.png",
         "initial_notification": "Hello world!\\nThis is my message for you.",
         "action_items": [
             {
@@ -69,36 +77,42 @@ export PARPID=$$
 }
 OK LISTEN
 tac
-echo 'show_splash_screen {"background": "'"$BASEDIR"'/img/gt-splash.png", "message": "Hello world!", "progress_bar": true}'
+  env printf 'show_splash_screen {"background": '
+  env printf '"%s/img/gt-splash.png", "message": ' "${BASEDIR}"
+  env printf "\"Hello world!\", \"progress_bar\": true}\n"
+  sleep 2
 
-sleep 2
-echo 'update_splash_screen {"progress": 0.2}'
-echo 'set_status {"status": "normal", "badge": "1k"}'
+  echo 'update_splash_screen {"progress": 0.2}'
+  echo 'set_status {"status": "normal", "badge": "1k"}'
+  sleep 2
 
-sleep 2
-echo 'update_splash_screen {"progress": 0.5, "message": "Woohooooo"}'
-echo 'update_splash_screen {"progress": 0.5}'
-echo 'set_item {"id": "menu-xkcd", "sensitive": true}'
-echo 'set_item {"id": "btn-xkcd", "sensitive": true}'
-echo 'notify_user {"message": "This is a notification"}'
-echo 'notify_user {"message": "This is a popup XKCD notification!!!1", "popup": true, "actions": [{"op": "show_url", "label": "XKCD", "url": "https://xkcd.com"}]}'
+  echo 'update_splash_screen {"progress": 0.5, "message": "Woohooooo"}'
+  echo 'update_splash_screen {"progress": 0.5}'
+  echo 'set_item {"id": "menu-xkcd", "sensitive": true}'
+  echo 'set_item {"id": "btn-xkcd", "sensitive": true}'
+  echo 'notify_user {"message": "This is a notification"}'
+  env printf 'notify_user {"message": "This is a popup XKCD notification!!!1", '
+  env printf '"popup": true, "actions": [{"op": "show_url", "label": "XKCD", '
+  env printf "\"url\": \"https://xkcd.com\"}]}\n"
+  sleep 2
 
-sleep 2
-echo 'set_status {"badge": ""}'
-echo 'update_splash_screen {"progress": 1.0}'
-echo 'set_status {"status": "working"}'
-sleep 2
-echo 'hide_splash_screen {}'
-echo 'show_main_window {}'
-echo 'set_status {"status": "attention"}'
+  echo 'set_status {"badge": ""}'
+  echo 'update_splash_screen {"progress": 1.0}'
+  echo 'set_status {"status": "working"}'
+  sleep 2
 
-sleep 2
-echo 'set_item {"id": "menu-xkcd", "label": "No really, XKCD"}'
-echo 'set_item {"id": "btn-xkcd", "label": "XKCDonk"}'
+  echo 'hide_splash_screen {}'
+  echo 'show_main_window {}'
+  echo 'set_status {"status": "attention"}'
+  sleep 2
 
-sleep 30
-echo 'set_status {"status": "shutdown"}'
+  echo 'set_item {"id": "menu-xkcd", "label": "No really, XKCD"}'
+  echo 'set_item {"id": "btn-xkcd", "label": "XKCDonk"}'
+  sleep 30
 
-sleep 5
+  echo 'set_status {"status": "shutdown"}'
+  sleep 5
 
-) | exec python -m gui_o_matic
+) | exec python3 -m gui_o_matic
+
+unset BASEDIR PARPID
