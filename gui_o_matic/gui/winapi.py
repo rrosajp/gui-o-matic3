@@ -82,19 +82,18 @@ class Image( object ):
           number: scale image size
           tuple: transform image size
         '''
-        if isinstance( path, PIL.Image.Image ):
-            source = path
-        else:
-            source = PIL.Image.open( path )
+        source = (
+            path if isinstance(path, PIL.Image.Image) else PIL.Image.open(path)
+        )
 
         if source.mode != 'RGBA':
             source = source.convert( 'RGBA' )
         if size:
             if not hasattr( size, '__len__' ):
                 factor = float( size ) / max( source.size )
-                size = tuple([ int(factor * dim) for dim in source.size ])
+                size = tuple(int(factor * dim) for dim in source.size)
             source = source.resize( size, PIL.Image.ANTIALIAS )
-            #source.thumbnail( size, PIL.Image.ANTIALIAS )
+                #source.thumbnail( size, PIL.Image.ANTIALIAS )
 
         self.size = source.size
         self.mode = mode
@@ -317,15 +316,13 @@ class Window( object ):
         def dirty( self, window ):
             rect = self.rect or window.get_client_region()
             size = ( rect[2] - rect[0], rect[3] - rect[1] )
-            result = self.image is None or self.image.size != size
-            return result
+            return self.image is None or self.image.size != size
 
         def invalidate( self ):
             self.image = None
 
         def __call__( self, window, hdc, paint_struct ):
-            dirty = self.dirty( window )
-            if dirty:
+            if dirty := self.dirty(window):
                 self.update( window, hdc )
 
             rect = self.rect or window.get_client_region()
@@ -413,7 +410,7 @@ class Window( object ):
 
             for key in ('text','rect','style','font','color'):
                 if key in kwargs:
-                    setter = '_set_' + key
+                    setter = f'_set_{key}'
                     if hasattr( self, setter ):
                         getattr( self, setter )( kwargs[ key ] )
                     else:
@@ -548,7 +545,7 @@ class Window( object ):
             self.action = None
 
         def __call__( self, window, message, wParam, lParam ):
-            print("Not implemented __call__ for " + self.__class__.__name__)
+            print(f'Not implemented __call__ for {self.__class__.__name__}')
 
         def __del__( self ):
             if hasattr( self, 'handle' ):
@@ -775,7 +772,7 @@ class Window( object ):
             message = None
             data = tuple()
 
-        self.systray = True if small_icon else False
+        self.systray = bool(small_icon)
 
         if message is not None:
             win32gui.Shell_NotifyIcon( message, data )
@@ -838,7 +835,7 @@ class Window( object ):
 
     def __del__( self ):
         # check that window was destroyed
-        assert( self.window_handle == None )
+        assert self.window_handle is None
 
     def close( self ):
         self.onClose()
@@ -1057,10 +1054,7 @@ class WinapiGUI(BaseGUI):
 
         menu_items = []
         for item in self.config['indicator']['menu_items']:
-            if 'id' in item:
-                menu_item = self.items[ item['id'] ]['action']
-            else:
-                menu_item = None #separator
+            menu_item = self.items[ item['id'] ]['action'] if 'id' in item else None
             menu_items.append( menu_item )
         self.systray_window.set_menu( menu_items )
 
@@ -1340,7 +1334,7 @@ class WinapiGUI(BaseGUI):
         for window in self.windows:
             window.set_icon( small_icon, large_icon )
 
-        systray_hover_text = self.config['app_name'] + ": " + status
+        systray_hover_text = f'{self.config["app_name"]}: {status}'
         self.systray_window.set_systray( small_icon, systray_hover_text )
 
     def quit(self):
@@ -1354,8 +1348,7 @@ class WinapiGUI(BaseGUI):
         if sensitive is not None:
             action.sensitive = sensitive
 
-        control = self.items[id]['control']
-        if control:
+        if control := self.items[id]['control']:
             control.set_action( action )
             self.layout_buttons()
 
@@ -1446,9 +1439,9 @@ class WinapiGUI(BaseGUI):
 
             if width and height:
                 pass
-            elif height and not width:
+            elif height:
                 width = height * image.size[0] / image.size[1]
-            elif width and not height:
+            elif width:
                 height = width * image.size[1] / image.size[0]
             else:
                 height = image.size[1]
@@ -1553,7 +1546,7 @@ class AsyncWrapper( object ):
         an async proxy interface.
         '''
         self.cls = cls
-        self.proxy = type( "Proxy_" + cls.__name__, (cls,), {} )
+        self.proxy = type(f'Proxy_{cls.__name__}', (cls,), {})
         self.touchup = touchup
         self.get_signal = get_signal
 

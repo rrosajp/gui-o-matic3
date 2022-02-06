@@ -29,10 +29,7 @@ class BaseGUI(object):
 
     def _get_url(self, args, remove=False):
         if isinstance(args, list):
-            if remove:
-                return args.pop(0), args
-            else:
-                return args[0], args
+            return (args.pop(0), args) if remove else (args[0], args)
         elif isinstance(args, dict):
             url = args['_url']
             if remove:
@@ -76,7 +73,7 @@ class BaseGUI(object):
             elif op == "shell":
                 for arg in args:
                     rv = os.system(arg)
-                    if 0 != rv:
+                    if rv != 0:
                         raise OSError(
                             'Failed with exit code %d: %s' % (rv, arg))
 
@@ -89,8 +86,7 @@ class BaseGUI(object):
     def _spawn(self, cmd, report_errors=True, _raise=False):
         def waiter(proc):
             try:
-                rv = proc.wait()
-                if rv:
+                if rv := proc.wait():
                     raise Exception('%s returned: %d' % (cmd[0], rv))
             except Exception as e:
                 if report_errors:

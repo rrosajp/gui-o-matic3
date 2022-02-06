@@ -49,7 +49,7 @@ class GUIPipeControl(threading.Thread):
     def _accept(self):
         if self.child is not None:
             self.listening.settimeout(1)
-            for count in range(0, 60):
+            for _ in range(60):
                 try:
                     self.sock = self.listening.accept()[0]
                     break
@@ -139,19 +139,18 @@ class GUIPipeControl(threading.Thread):
 
                 if not line:
                     break
-                if line:
-                    match, lstn = self.do_line_magic(line, None)
-                    if not match:
-                        try:
-                            cmd, args = line.strip().split(' ', 1)
-                            args = json.loads(args)
-                            self.do(cmd, args)
-                        except (ValueError, IndexError, NameError) as e:
-                            if self.gui:
-                                self.gui._report_error(e)
-                                time.sleep(30)
-                            else:
-                                traceback.print_exc()
+                match, lstn = self.do_line_magic(line, None)
+                if not match:
+                    try:
+                        cmd, args = line.strip().split(' ', 1)
+                        args = json.loads(args)
+                        self.do(cmd, args)
+                    except (ValueError, IndexError, NameError) as e:
+                        if self.gui:
+                            self.gui._report_error(e)
+                            time.sleep(30)
+                        else:
+                            traceback.print_exc()
 
         except KeyboardInterrupt:
             return

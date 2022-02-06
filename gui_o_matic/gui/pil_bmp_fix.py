@@ -42,7 +42,7 @@ def _save(im, fp, filename):
     dpi = info.get("dpi", (96, 96))
 
     # 1 meter == 39.3701 inches
-    ppm = tuple([int(x * 39.3701) for x in dpi])
+    ppm = tuple(int(x * 39.3701) for x in dpi)
 
     stride = ((im.size[0]*bits+7)//8+3) & (~3)
     if rawmode == "BGRA":

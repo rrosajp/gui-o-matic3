@@ -47,9 +47,7 @@ except ImportError:
         # quoting arguments if windows
         if sys.platform == 'win32':
             def quote(arg):
-                if ' ' in arg:
-                    return '"%s"' % arg
-                return arg
+                return '"%s"' % arg if ' ' in arg else arg
             args = [quote(arg) for arg in args]
         return os.spawnl(os.P_WAIT, sys.executable, *args) == 0
 
@@ -151,7 +149,7 @@ def use_setuptools(version=DEFAULT_VERSION, download_base=DEFAULT_URL,
         except ImportError:
             return _do_download(version, download_base, to_dir, download_delay)
         try:
-            pkg_resources.require("distribute>="+version)
+            pkg_resources.require(f'distribute>={version}')
             return
         except pkg_resources.VersionConflict:
             e = sys.exc_info()[1]
@@ -333,10 +331,11 @@ _create_fake_setuptools_pkg_info = _no_sandbox(_create_fake_setuptools_pkg_info)
 def _patch_egg_dir(path):
     # let's check if it's already patched
     pkg_info = os.path.join(path, 'EGG-INFO', 'PKG-INFO')
-    if os.path.exists(pkg_info):
-        if _same_content(pkg_info, SETUPTOOLS_PKG_INFO):
-            log.warn('%s already patched.', pkg_info)
-            return False
+    if os.path.exists(pkg_info) and _same_content(
+        pkg_info, SETUPTOOLS_PKG_INFO
+    ):
+        log.warn('%s already patched.', pkg_info)
+        return False
     _rename_path(path)
     os.mkdir(path)
     os.mkdir(os.path.join(path, 'EGG-INFO'))
@@ -407,8 +406,6 @@ def _fake_setuptools():
     if not setuptools_location.endswith('.egg'):
         log.warn('Non-egg installation')
         res = _remove_flat_installation(setuptools_location)
-        if not res:
-            return
     else:
         log.warn('Egg installation')
         pkg_info = os.path.join(setuptools_location, 'EGG-INFO', 'PKG-INFO')
@@ -419,8 +416,8 @@ def _fake_setuptools():
         log.warn('Patching...')
         # let's create a fake egg replacing setuptools one
         res = _patch_egg_dir(setuptools_location)
-        if not res:
-            return
+    if not res:
+        return
     log.warn('Patched done.')
     _relaunch()
 

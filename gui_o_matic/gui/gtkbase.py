@@ -181,7 +181,7 @@ class GtkBaseGUI(BaseGUI):
             ss['hbox'].pack_start(ss['vbox'], True, True)
             ss['hbox'].set_spacing(7)
             status_displays.append(ss)
-        self.status_display = dict((ss['id'], ss) for ss in status_displays)
+        self.status_display = {ss['id']: ss for ss in status_displays}
 
         notify = None
         if 'notification' not in self.status_display:
@@ -205,12 +205,15 @@ class GtkBaseGUI(BaseGUI):
         vbox.pack_end(button_box, False, True)
 
         self.main_window['window'].add(vbox)
-        self.main_window.update({
-            'vbox': vbox,
-            'notification': (notify if notify
-                else self.status_display['notification']['details']),
-            'status_displays': status_displays,
-            'buttons': button_box})
+        self.main_window.update(
+            {
+                'vbox': vbox,
+                'notification': notify
+                or self.status_display['notification']['details'],
+                'status_displays': status_displays,
+                'buttons': button_box,
+            }
+        )
 
     # TODO: Add other window styles?
 
@@ -406,12 +409,8 @@ class GtkBaseGUI(BaseGUI):
         if status is None:
             return
 
-        if _now:
-            do = lambda o, a: o(a)
-        else:
-            do = gobject.idle_add
-        images = self.config.get('images')
-        if images:
+        do = (lambda o, a: o(a)) if _now else gobject.idle_add
+        if images := self.config.get('images'):
             icon = images.get(status)
             if not icon:
                 icon = images.get('normal')
