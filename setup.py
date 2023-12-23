@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
 #
 # SPDX-FileCopyrightText: © 2016-2018 Mailpile ehf. <team@mailpile.is>
 # SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
@@ -7,19 +8,16 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 import pathlib
+import setuptools
+from os import path
 
-try:
-    import setuptools
-except ImportError:
-    from distribute_setup import use_setuptools
-    use_setuptools()
-
-# Do not edit: The VERSION gets updated by the update-version script
+# Do not edit: The VERSION gets updated by the update-version script.
 VERSION = '0.3.89'
 
 here = pathlib.Path(__file__).parent.resolve()
 
-long_description = (here / 'README.md')read_text(encoding='utf-8')
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setuptools.setup(
     name='gui-o-matic',
@@ -31,16 +29,14 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url='https://github.com/mailpile/gui-o-matic/',
     license='LGPLv3',
-    packages=setuptools.find_packages(where='gui_o_matic),
+    packages=setuptools.find_packages(where='gui_o_matic'),
     keywords='notification, notify, mailpile',
     project_urls={
-    'Repository': 'https://github.com/mailpile/gui-o-matic/',
-    'Bug Tracker': 'https://github.com/mailpile/gui-o-matic/issues'
+        'Repository': 'https://github.com/mailpile/gui-o-matic/',
+        'Bug Tracker': 'https://github.com/mailpile/gui-o-matic/issues'
     },
     entry_points={
-        'console_scripts': [
-            'gui-o-matic = gui_o_matic.__main__:main'
-        ]
+        'console_scripts': ['gui-o-matic = gui_o_matic.__main__:main']
     },
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -57,6 +53,7 @@ setuptools.setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Desktop Environment',
@@ -64,6 +61,6 @@ setuptools.setup(
         'Topic :: Software Development :: User Interfaces',
     ],
     python_requires='~=3.6',
-    install_requires=['gobject', 'python-dbus'],
+    install_requires=['PyGObject', 'dbus-python'],
     package_dir={'': 'gui_o_matic'}
 )

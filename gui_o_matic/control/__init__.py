@@ -1,18 +1,23 @@
 # SPDX-FileCopyrightText: © 2016-2018 Mailpile ehf. <team@mailpile.is>
 # SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
-# SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net>
+# SPDX-FileCopyrightText: 🄯 2020-2023 Peter J. Mello <admin@petermello.net>
 #
 # SPDX-License-Identifier: LGPL-3.0-only
 
 import json
 import os
-import subprocess
+import pathlib
 import socket
-import time
+import subprocess
+import sys
 import threading
+import time
 import traceback
-import urllib.request, urllib.error, urllib.parse
-from gui_o_matic.gui.auto import AutoGUI
+from urllib import request
+
+target_path = pathlib.Path(os.path.abspath(__file__)).parents[3]
+sys.path.append(target_path)
+from gui.auto import AutoGUI
 
 
 class GUIPipeControl(threading.Thread):
@@ -33,11 +38,8 @@ class GUIPipeControl(threading.Thread):
         self.listening = None
 
     def shell_pivot(self, command):
-        self.child = subprocess.Popen(command,
-            shell=True,
-            close_fds= (os.name != 'nt'), # Doesn't work on windows!
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE)
+        self.child = subprocess.Popen(command, shell=True, close_fds=(os.name != 'nt'),  # Doesn't work on windows!
+                                      stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         self.fd = self.child.stdout
 
     def _listen(self):
@@ -49,7 +51,7 @@ class GUIPipeControl(threading.Thread):
     def _accept(self):
         if self.child is not None:
             self.listening.settimeout(1)
-            for count in range(0, 60):
+            for _ in range(0, 60):
                 try:
                     self.sock = self.listening.accept()[0]
                     break
@@ -70,7 +72,7 @@ class GUIPipeControl(threading.Thread):
 
     def http_tcp_pivot(self, url):
         port = self._listen()
-        urllib.request.urlopen(url.replace('%PORT%', port)).read()
+        request.urlopen(url.replace('%PORT%', port)).read()
         self._accept()
 
     def do_line_magic(self, line, listen):
@@ -78,29 +80,30 @@ class GUIPipeControl(threading.Thread):
             if not line or line.strip() in (self.OK_GO, self.OK_LISTEN):
                 return True, self.OK_LISTEN in line
 
-            elif line.startswith(self.OK_LISTEN_TO):
+            if line.startswith(self.OK_LISTEN_TO):
                 self.shell_pivot(line[len(self.OK_LISTEN_TO):].strip())
                 return True, True
 
-            elif line.startswith(self.OK_LISTEN_TCP):
+            if line.startswith(self.OK_LISTEN_TCP):
                 self.shell_tcp_pivot(line[len(self.OK_LISTEN_TCP):].strip())
                 return True, True
 
-            elif line.startswith(self.OK_LISTEN_HTTP):
+            if line.startswith(self.OK_LISTEN_HTTP):
                 self.http_tcp_pivot(line[len(self.OK_LISTEN_HTTP):].strip())
                 return True, True
 
-            else:
-                return False, listen
+            return False, listen
+
         except Exception as e:
             if self.gui:
                 self.gui._report_error(e)
                 time.sleep(30)
-                raise
+            else:
+                traceback.print_exc()
 
     def bootstrap(self, dry_run=False):
-        assert(self.config is None)
-        assert(self.gui is None)
+        assert (self.config is None)
+        assert (self.gui is None)
 
         listen = False
         config = []
@@ -158,7 +161,7 @@ class GUIPipeControl(threading.Thread):
         except:
             traceback.print_exc()
         finally:
-            # Use sys.exit to allow atxit.register() to fire...
+            # Use sys.exit to allow atexit.register() to fire...
             #
             self.gui.quit()
             time.sleep(0.5)

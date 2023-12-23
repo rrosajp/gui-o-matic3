@@ -1,0 +1,25 @@
+Source: gui-o-matic
+Section: python
+Priority: optional
+Maintainer: Peter J. Mello <admin@petermello.net>
+Build-Depends: debhelper-compat (= 13), dh-python, dh-sequence-python3,
+ lsb-release, pybuild-plugin-pyproject, python3-all (>= 3.6~), python3-dbus,
+ python3-gi, python3-setuptools
+Standards-Version: 4.6.2
+Homepage: https://github.com/mailpile/gui-o-matic/
+Vcs-Git: https://github.com/RogueScholar/gui-o-matic3.git
+Vcs-Browser: https://github.com/RogueScholar/gui-o-matic3
+Rules-Requires-Root: no
+X-Python3-Version: >= 3.6
+
+Package: python3-gui-o-matic
+Architecture: all
+Depends: python3-dbus, python3-gi, ${python3:Depends}, ${misc:Depends}
+Recommends: python3-notify2, gir1.2-appindicator3-0.1
+Provides: python-gui-o-matic
+Description: cross-platform tool for minimal GUIs
+ This is a tool for creating minimal graphical user interfaces; maybe just a
+ splash screen and an indicator icon with a drop-down menu.
+ .
+ The tool is inspired by `dialog` and other similar command-line utilities which
+ provide drop-in user interfaces for shell scripts.

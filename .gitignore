@@ -1,0 +1,10 @@
+.idea/
+.pybuild/
+build/
+debian/.debhelper/
+debian/python3-gui-o-matic/
+debian/*.debhelper
+debian/*.substvars
+debian/debhelper-build-stamp
+debian/files
+gui_o_matic/gui_o_matic.egg-info/

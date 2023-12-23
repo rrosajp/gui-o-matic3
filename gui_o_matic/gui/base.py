@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: © 2016-2018 Mailpile ehf. <team@mailpile.is>
 # SPDX-FileCopyrightText: © 2016-2018 Bjarni Rúnar Einarsson <bre@godthaab.is>
-# SPDX-FileCopyrightText: 🄯 2020 Peter J. Mello <admin@petermello.net>
+# SPDX-FileCopyrightText: 🄯 2020-2023 Peter J. Mello <admin@petermello.net>
 #
 # SPDX-License-Identifier: LGPL-3.0-only
 
@@ -10,7 +10,9 @@ import os
 import subprocess
 import threading
 import traceback
-import urllib.request, urllib.parse, urllib.error
+import urllib.error
+import urllib.parse
+import urllib.request
 import webbrowser
 
 
@@ -40,8 +42,7 @@ class BaseGUI(object):
             return url, args
         elif remove:
             return args, None
-        else:
-            return args, args
+        return args, args
 
     def _do(self, op, args):
         op, args = op.lower(), copy.copy(args)
@@ -57,7 +58,7 @@ class BaseGUI(object):
                 uo = urllib.request.URLopener()
                 for cookie, value in self.config.get('http_cookies', {}
                                                      ).get(base_url, []):
-                    uo.addheader('Cookie', '%s=%s' % (cookie, value))
+                    uo.addheader('Cookie', f'{cookie}={value}')
 
                 if op == 'post_url':
                     (fn, hdrs) = uo.retrieve(url, data=args)
@@ -76,9 +77,9 @@ class BaseGUI(object):
             elif op == "shell":
                 for arg in args:
                     rv = os.system(arg)
-                    if 0 != rv:
+                    if rv != 0:
                         raise OSError(
-                            'Failed with exit code %d: %s' % (rv, arg))
+                            f'Failed with exit code {rv}: {arg}')
 
             elif hasattr(self, op):
                 getattr(self, op)(**(args or {}))
@@ -91,7 +92,7 @@ class BaseGUI(object):
             try:
                 rv = proc.wait()
                 if rv:
-                    raise Exception('%s returned: %d' % (cmd[0], rv))
+                    raise Exception(f'{cmd[0]} returned: {rv}')
             except Exception as e:
                 if report_errors:
                     self._report_error(e)
@@ -104,7 +105,7 @@ class BaseGUI(object):
         except Exception as e:
             if _raise:
                 raise
-            elif report_errors:
+            if report_errors:
                 self._report_error(e)
         return False
 
@@ -137,7 +138,7 @@ class BaseGUI(object):
             # The protocol mandates absolute paths, to avoid weird breakage
             # if the config and GUI app are generated from different working
             # directories. Fail here to help developers catch bugs early.
-            raise ValueError('Path is not absolute: %s' % path)
+            raise ValueError(f'Path is not absolute: {path}')
         return path
 
     def _add_menu_item(self, id='item', label='Menu item', sensitive=False,
